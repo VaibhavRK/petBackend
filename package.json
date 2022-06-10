@@ -4,8 +4,7 @@
   "description": "It is the backend that takes an excel file as input, parses it and stores the data in the database.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node index.js"
   },
   "author": "vaibhav gupta",
   "license": "ISC",

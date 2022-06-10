@@ -1,7 +1,7 @@
 const app = require('./app');
 require('./configure/db');
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT,()=>{
     console.log(`Server is running on PORT ${PORT}...`);
