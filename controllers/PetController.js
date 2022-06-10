@@ -1,34 +1,30 @@
 const PetSchema = require("../models/PetSchema");
 const render = require('xlsx');
 
-const PathName = __dirname.replace('controllers','');
-
-const file = render.readFile(`${PathName}/petData.xlsx`);
-
-exports.petsDataUpload = async (req, res, next) => {
+exports.petsDataUpload = async (req, res) => {
     try {
-        console.log(__dirname)
+        let path = req.file.path;
+        
+        const file = render.readFile(path);
+  
         const sheetName = file.SheetNames[0];
-
-        let data = render.utils.sheet_to_json(file.Sheets[sheetName]);
-
-        for(let i=0;i<data.length;i++){
-            const pet = await PetSchema.create(data[i]);
-            console.log(pet);
-        }
-
-        res.status(200).json({
-            message:'Uploaded Successfully'
-        });
-    } catch (error) {
-        res.status(400).json({
-            message:'Failed to upload',
-            error
-        })
-    }
+  
+          let data = render.utils.sheet_to_json(file.Sheets[sheetName]);
+  
+          for(let i=0;i<data.length;i++){
+              const pet = await PetSchema.create(data[i]);
+              console.log(pet);
+          }
+  
+          res.status(200).json({
+              message:'Uploaded Successfully'
+          });
+      } catch (err) {
+        return res.status(500).json({ success: false, message: err.message });
+      }
 }
 
-exports.getPetsData = async (req, res, next) => {
+exports.getPetsData = async (req, res) => {
     try {
         const petsData = await PetSchema.find();
 
@@ -44,7 +40,7 @@ exports.getPetsData = async (req, res, next) => {
     }
 }
 
-exports.welcome = async (req, res, next) => {
+exports.welcome = async (req, res) => {
     try {
         res.send('Welcome')
     } catch (error) {
@@ -55,7 +51,7 @@ exports.welcome = async (req, res, next) => {
     }
 }
 
-exports.getPet = async (req, res, next) => {
+exports.getPet = async (req, res) => {
     try {
         const petId = req.params.petId;
 
@@ -73,7 +69,7 @@ exports.getPet = async (req, res, next) => {
     }
 }
 
-exports.updatePet = async (req, res, next) => {
+exports.updatePet = async (req, res) => {
     try {
         const petId = req.params.petId;
         const data = req.body;
@@ -92,7 +88,7 @@ exports.updatePet = async (req, res, next) => {
     }
 }
 
-exports.deletePet = async (req, res, next) => {
+exports.deletePet = async (req, res) => {
     try {
         const petId = req.params.petId;
 
