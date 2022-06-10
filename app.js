@@ -10,4 +10,8 @@ app.use(express.urlencoded({extended:true}));
 //using router middlewares
 app.use('/api',petRoute);
 
+app.get('/',(req,res)=>{
+    res.send('Welcome to my home page');
+})
+
 module.exports = app;
